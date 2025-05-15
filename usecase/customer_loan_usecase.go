@@ -5,8 +5,6 @@ import (
 	"loan-engine/domain"
 )
 
-const WeekLoans = 50
-
 var customerLoans = []domain.CustomerLoan{}
 
 func calculateTotalRepayment(loan domain.Loan) int {

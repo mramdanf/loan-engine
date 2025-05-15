@@ -10,10 +10,6 @@ var customers = []domain.Customer{
 	{ID: 2, Name: "Malcolm Doe"},
 }
 
-func GetAllCustomers() []domain.Customer {
-	return customers
-}
-
 func GetCustomerByID(id int) (domain.Customer, error) {
 	for _, customer := range customers {
 		if customer.ID == id {
