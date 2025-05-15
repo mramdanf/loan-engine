@@ -16,6 +16,7 @@ func main() {
 
 	e.POST("/customer-loan", handler.CreateCustomerLoan)
 	e.POST("/customer-loan/payment", handler.PayCustomerLoan)
+	e.GET("/customer-loan/:customer_loan_id/outstanding", handler.GetCustomerLoanOutStanding)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

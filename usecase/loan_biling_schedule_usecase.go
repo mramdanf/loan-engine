@@ -50,3 +50,13 @@ func PayLoanBilingSchedule(paymentDate time.Time, customerLoan domain.CustomerLo
 	}
 	return loanBilingSchedules
 }
+
+func GetLoanBillingOutStanding(customerLoan domain.CustomerLoan) int {
+	totalOutStanding := 0
+	for _, loanBilingSchedule := range loanBilingSchedules {
+		if loanBilingSchedule.Status == domain.LoanBilingScheduleStatusUnpaid {
+			totalOutStanding += loanBilingSchedule.WeeklyBillingAmount
+		}
+	}
+	return totalOutStanding
+}
