@@ -1,6 +1,7 @@
 package main
 
 import (
+	"loan-engine/handler"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -12,5 +13,9 @@ func main() {
 	e.GET("/ping", func(c echo.Context) error {
 		return c.String(http.StatusOK, "pong")
 	})
+
+	e.POST("/customer-loan", handler.CreateCustomerLoan)
+	e.POST("/customer-loan/payment", handler.PayCustomerLoan)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
