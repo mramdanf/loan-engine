@@ -36,13 +36,21 @@ func isLoanMatch(customerLoan domain.CustomerLoan, loanBilingSchedule domain.Loa
 	return loanBilingSchedule.CustomerLoan.Loan.ID == customerLoan.Loan.ID
 }
 
-func isOnTimeOrLate(paymentDate time.Time, loanBilingSchedule domain.LoanBilingSchedule) bool {
+func isPaymentDateAfterOrOnDueDate(paymentDate time.Time, loanBilingSchedule domain.LoanBilingSchedule) bool {
 	return loanBilingSchedule.DueDate.Before(paymentDate) || loanBilingSchedule.DueDate.Equal(paymentDate)
+}
+
+func isBillingUnpaid(loanBilingSchedule domain.LoanBilingSchedule) bool {
+	return loanBilingSchedule.Status == domain.LoanBilingScheduleStatusUnpaid
+}
+
+func isDueDateBeforeCurrentDate(loanBilingSchedule domain.LoanBilingSchedule, currentDate time.Time) bool {
+	return loanBilingSchedule.DueDate.Before(currentDate)
 }
 
 func PayLoanBilingSchedule(paymentDate time.Time, customerLoan domain.CustomerLoan) []domain.LoanBilingSchedule {
 	for i, loanBilingSchedule := range loanBilingSchedules {
-		if isOnTimeOrLate(paymentDate, loanBilingSchedule) &&
+		if isPaymentDateAfterOrOnDueDate(paymentDate, loanBilingSchedule) &&
 			isCustomerMatch(customerLoan, loanBilingSchedule) &&
 			isLoanMatch(customerLoan, loanBilingSchedule) {
 			loanBilingSchedules[i].Status = domain.LoanBilingScheduleStatusPaid
@@ -54,9 +62,27 @@ func PayLoanBilingSchedule(paymentDate time.Time, customerLoan domain.CustomerLo
 func GetLoanBillingOutStanding(customerLoan domain.CustomerLoan) int {
 	totalOutStanding := 0
 	for _, loanBilingSchedule := range loanBilingSchedules {
-		if loanBilingSchedule.Status == domain.LoanBilingScheduleStatusUnpaid {
+		if isCustomerMatch(customerLoan, loanBilingSchedule) &&
+			isLoanMatch(customerLoan, loanBilingSchedule) &&
+			isBillingUnpaid(loanBilingSchedule) {
 			totalOutStanding += loanBilingSchedule.WeeklyBillingAmount
 		}
 	}
 	return totalOutStanding
+}
+
+func IsLoanDelinquent(customerLoan domain.CustomerLoan, currentDate time.Time) bool {
+	unpaidCount := 0
+	maxUnpaidCount := 2
+
+	for _, loanBilingSchedule := range loanBilingSchedules {
+		if isCustomerMatch(customerLoan, loanBilingSchedule) &&
+			isLoanMatch(customerLoan, loanBilingSchedule) &&
+			isBillingUnpaid(loanBilingSchedule) &&
+			isDueDateBeforeCurrentDate(loanBilingSchedule, currentDate) &&
+			unpaidCount < maxUnpaidCount {
+			unpaidCount++
+		}
+	}
+	return unpaidCount >= maxUnpaidCount
 }

@@ -6,7 +6,7 @@ import (
 )
 
 var loans = []domain.Loan{
-	{ID: 1, PrincipalAmount: 5000000, InterestRate: 10, WeekDuration: 50},
+	{ID: 1, PrincipalAmount: 5000000, InterestRate: 10, WeekDuration: 4},
 }
 
 func GetAllLoans() []domain.Loan {

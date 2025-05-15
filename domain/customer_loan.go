@@ -1,7 +1,5 @@
 package domain
 
-import "time"
-
 type CustomerLoan struct {
 	ID             int      `json:"id"`
 	CustomerID     int      `json:"customer_id" validate:"required"`
@@ -12,6 +10,6 @@ type CustomerLoan struct {
 }
 
 type CustomerLoanPayment struct {
-	CustomerLoanID int       `json:"customer_loan_id" validate:"required"`
-	PaymentDate    time.Time `json:"payment_date" validate:"required"`
+	CustomerLoanID int    `json:"customer_loan_id" validate:"required"`
+	PaymentDate    string `json:"payment_date" validate:"required"`
 }
