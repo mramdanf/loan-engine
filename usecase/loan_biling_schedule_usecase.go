@@ -7,11 +7,6 @@ import (
 
 var loanBilingSchedules = []domain.LoanBilingSchedule{}
 
-// TODO: possible not used
-func GetAllLoanBilingSchedules() []domain.LoanBilingSchedule {
-	return loanBilingSchedules
-}
-
 func CreateLoanBilingSchedule(customerLoan domain.CustomerLoan) []domain.LoanBilingSchedule {
 	weeklyBillingAmount := customerLoan.TotalRepayment / customerLoan.Loan.WeekDuration
 	for i := 0; i < customerLoan.Loan.WeekDuration; i++ {
