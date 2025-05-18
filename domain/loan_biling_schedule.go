@@ -2,18 +2,18 @@ package domain
 
 import "time"
 
-type LoanBilingScheduleStatus string
+type LoanBillingScheduleStatus string
 
 const (
-	LoanBilingScheduleStatusUnpaid LoanBilingScheduleStatus = "unpaid"
-	LoanBilingScheduleStatusPaid   LoanBilingScheduleStatus = "paid"
+	LoanBillingScheduleStatusUnpaid LoanBillingScheduleStatus = "unpaid"
+	LoanBillingScheduleStatusPaid   LoanBillingScheduleStatus = "paid"
 )
 
-type LoanBilingSchedule struct {
-	ID                  int                      `json:"id"`
-	CustomerLoan        CustomerLoan             `json:"customer_loan"`
-	Week                int                      `json:"week"`
-	WeeklyBillingAmount int                      `json:"weekly_billing_amount"`
-	Status              LoanBilingScheduleStatus `json:"status"`
-	DueDate             time.Time                `json:"due_date"`
+type LoanBillingSchedule struct {
+	ID                  int                       `json:"id"`
+	CustomerLoan        CustomerLoan              `json:"customer_loan"`
+	Week                int                       `json:"week"`
+	WeeklyBillingAmount int                       `json:"weekly_billing_amount"`
+	Status              LoanBillingScheduleStatus `json:"status"`
+	DueDate             time.Time                 `json:"due_date"`
 }

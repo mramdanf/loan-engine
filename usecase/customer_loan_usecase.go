@@ -15,14 +15,14 @@ func GetAllCustomerLoans() []domain.CustomerLoan {
 	return customerLoans
 }
 
-func CreateCustomerLoan(customerLoan domain.CustomerLoan) (domain.CustomerLoan, []domain.LoanBilingSchedule) {
+func CreateCustomerLoan(customerLoan domain.CustomerLoan) (domain.CustomerLoan, []domain.LoanBillingSchedule) {
 	loan, err := GetLoanByID(customerLoan.LoanID)
 	if err != nil {
-		return domain.CustomerLoan{}, []domain.LoanBilingSchedule{}
+		return domain.CustomerLoan{}, []domain.LoanBillingSchedule{}
 	}
 	customer, err := GetCustomerByID(customerLoan.CustomerID)
 	if err != nil {
-		return domain.CustomerLoan{}, []domain.LoanBilingSchedule{}
+		return domain.CustomerLoan{}, []domain.LoanBillingSchedule{}
 	}
 	customerLoan.Loan = loan
 	customerLoan.Customer = customer
@@ -30,9 +30,9 @@ func CreateCustomerLoan(customerLoan domain.CustomerLoan) (domain.CustomerLoan, 
 
 	customerLoans = append(customerLoans, customerLoan)
 
-	loanBilingSchedules := CreateLoanBilingSchedule(customerLoan)
+	loanBillingSchedules := CreateLoanBillingSchedule(customerLoan)
 
-	return customerLoan, loanBilingSchedules
+	return customerLoan, loanBillingSchedules
 }
 
 func GetCustomerLoanByID(id int) (domain.CustomerLoan, error) {

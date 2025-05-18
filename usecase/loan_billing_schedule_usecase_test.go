@@ -10,7 +10,7 @@ import (
 
 var dueDate = time.Date(2025, 5, 15, 21, 42, 6, 906818000, time.FixedZone("+07:00", 7*60*60))
 
-var mockLoanBillingSchedules = []domain.LoanBilingSchedule{
+var mockLoanBillingSchedules = []domain.LoanBillingSchedule{
 	{
 		CustomerLoan: domain.CustomerLoan{
 			Customer: domain.Customer{
@@ -21,23 +21,23 @@ var mockLoanBillingSchedules = []domain.LoanBilingSchedule{
 			},
 		},
 		DueDate:             dueDate,
-		Status:              domain.LoanBilingScheduleStatusUnpaid,
+		Status:              domain.LoanBillingScheduleStatusUnpaid,
 		WeeklyBillingAmount: 100000,
 	},
 }
 
-func Test_PayLoanBilingSchedule(t *testing.T) {
-	originalSchedules := loanBilingSchedules
+func Test_PayLoanBillingSchedule(t *testing.T) {
+	originalSchedules := loanBillingSchedules
 
 	defer func() {
-		loanBilingSchedules = originalSchedules
+		loanBillingSchedules = originalSchedules
 	}()
 
-	loanBilingSchedules = mockLoanBillingSchedules
+	loanBillingSchedules = mockLoanBillingSchedules
 
 	t.Run("Successfully change status to paid", func(t *testing.T) {
-		loanBilingSchedules[0].Status = domain.LoanBilingScheduleStatusUnpaid
-		scheds := PayLoanBilingSchedule(dueDate, domain.CustomerLoan{
+		loanBillingSchedules[0].Status = domain.LoanBillingScheduleStatusUnpaid
+		scheds := PayLoanBillingSchedule(dueDate, domain.CustomerLoan{
 			Customer: domain.Customer{
 				ID: 1,
 			},
@@ -46,12 +46,12 @@ func Test_PayLoanBilingSchedule(t *testing.T) {
 			},
 		})
 
-		assert.Equal(t, domain.LoanBilingScheduleStatusPaid, scheds[0].Status)
+		assert.Equal(t, domain.LoanBillingScheduleStatusPaid, scheds[0].Status)
 	})
 
 	t.Run("No billing data found", func(t *testing.T) {
-		loanBilingSchedules[0].Status = domain.LoanBilingScheduleStatusUnpaid
-		scheds := PayLoanBilingSchedule(dueDate, domain.CustomerLoan{
+		loanBillingSchedules[0].Status = domain.LoanBillingScheduleStatusUnpaid
+		scheds := PayLoanBillingSchedule(dueDate, domain.CustomerLoan{
 			Customer: domain.Customer{
 				ID: 10,
 			},
@@ -60,18 +60,18 @@ func Test_PayLoanBilingSchedule(t *testing.T) {
 			},
 		})
 
-		assert.Equal(t, domain.LoanBilingScheduleStatusUnpaid, scheds[0].Status)
+		assert.Equal(t, domain.LoanBillingScheduleStatusUnpaid, scheds[0].Status)
 	})
 }
 
 func Test_GetLoanBillingOutStanding(t *testing.T) {
-	originalSchedules := loanBilingSchedules
+	originalSchedules := loanBillingSchedules
 
 	defer func() {
-		loanBilingSchedules = originalSchedules
+		loanBillingSchedules = originalSchedules
 	}()
 
-	loanBilingSchedules = mockLoanBillingSchedules
+	loanBillingSchedules = mockLoanBillingSchedules
 
 	t.Run("Successfully get loan billing outstanding", func(t *testing.T) {
 		outstanding := GetLoanBillingOutStanding(domain.CustomerLoan{
@@ -88,10 +88,10 @@ func Test_GetLoanBillingOutStanding(t *testing.T) {
 }
 
 func Test_IsLoanDelinquent(t *testing.T) {
-	originalSchedules := loanBilingSchedules
+	originalSchedules := loanBillingSchedules
 
 	defer func() {
-		loanBilingSchedules = originalSchedules
+		loanBillingSchedules = originalSchedules
 	}()
 
 	var customerLoan = domain.CustomerLoan{
@@ -104,13 +104,13 @@ func Test_IsLoanDelinquent(t *testing.T) {
 	}
 
 	t.Run("Successfully check loan delinquent", func(t *testing.T) {
-		loanBilingSchedules = []domain.LoanBilingSchedule{}
+		loanBillingSchedules = []domain.LoanBillingSchedule{}
 
 		for i := 0; i < 2; i++ {
-			loanBilingSchedules = append(loanBilingSchedules, domain.LoanBilingSchedule{
+			loanBillingSchedules = append(loanBillingSchedules, domain.LoanBillingSchedule{
 				CustomerLoan:        customerLoan,
 				DueDate:             dueDate,
-				Status:              domain.LoanBilingScheduleStatusUnpaid,
+				Status:              domain.LoanBillingScheduleStatusUnpaid,
 				WeeklyBillingAmount: 100000,
 			})
 		}
@@ -120,13 +120,13 @@ func Test_IsLoanDelinquent(t *testing.T) {
 	})
 
 	t.Run("Successfully check loan not delinquent", func(t *testing.T) {
-		loanBilingSchedules = []domain.LoanBilingSchedule{}
+		loanBillingSchedules = []domain.LoanBillingSchedule{}
 
 		for i := 0; i < 2; i++ {
-			loanBilingSchedules = append(loanBilingSchedules, domain.LoanBilingSchedule{
+			loanBillingSchedules = append(loanBillingSchedules, domain.LoanBillingSchedule{
 				CustomerLoan:        customerLoan,
 				DueDate:             dueDate,
-				Status:              domain.LoanBilingScheduleStatusPaid,
+				Status:              domain.LoanBillingScheduleStatusPaid,
 				WeeklyBillingAmount: 100000,
 			})
 		}

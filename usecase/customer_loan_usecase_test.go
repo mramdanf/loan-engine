@@ -71,7 +71,7 @@ func Test_CreateCustomerLoan(t *testing.T) {
 			assert.Equal(t, i, schedule.ID)
 			assert.Equal(t, i+1, schedule.Week)
 			assert.Equal(t, 275000, schedule.WeeklyBillingAmount)
-			assert.Equal(t, domain.LoanBilingScheduleStatusUnpaid, schedule.Status)
+			assert.Equal(t, domain.LoanBillingScheduleStatusUnpaid, schedule.Status)
 			assert.True(t, schedule.DueDate.After(time.Now().AddDate(0, 0, 7*i-1)))
 			assert.True(t, schedule.DueDate.Before(time.Now().AddDate(0, 0, 7*i+1)))
 		}

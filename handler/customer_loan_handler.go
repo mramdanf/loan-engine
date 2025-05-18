@@ -15,8 +15,8 @@ func CreateCustomerLoan(c echo.Context) error {
 	if err := c.Bind(&customerLoan); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
-	customerLoan, loanBilingSchedules := usecase.CreateCustomerLoan(customerLoan)
-	return c.JSON(http.StatusOK, loanBilingSchedules)
+	customerLoan, loanBillingSchedules := usecase.CreateCustomerLoan(customerLoan)
+	return c.JSON(http.StatusOK, loanBillingSchedules)
 }
 
 func PayCustomerLoan(c echo.Context) error {
@@ -32,8 +32,8 @@ func PayCustomerLoan(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, "invalid date format. Expected format: YYYY-MM-DD HH:mm:ss")
 	}
-	loanBilingSchedules := usecase.PayLoanBilingSchedule(parsedDate, customerLoan)
-	return c.JSON(http.StatusOK, loanBilingSchedules)
+	loanBillingSchedules := usecase.PayLoanBillingSchedule(parsedDate, customerLoan)
+	return c.JSON(http.StatusOK, loanBillingSchedules)
 }
 
 func GetCustomerLoanOutStanding(c echo.Context) error {
